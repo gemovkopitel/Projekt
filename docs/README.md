@@ -1,1 +1,1 @@
-
+# Dla documentów
