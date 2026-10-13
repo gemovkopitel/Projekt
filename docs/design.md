@@ -1,7 +1,7 @@
-### Design mojej aplikacji ###
+# Design mojej aplikacji #
 
 ## LOGIN cz.1 ##
-# Naglówek: #
+### Naglówek: ###
 #202020 - color tła
 1980px - szerokość nagłówka
 168px - wysocość nagłówka
@@ -10,10 +10,10 @@
 70px - szerokość oraz wysocość logo
 50px - rozmiar czcionki
 
-# Glówna cz: #
+### Glówna cz: ###
 #0F0F0F - color body
 
-# Biała kartka: #
+### Biała kartka: ###
 #F8F8F8 - color kartki
 700px - szerokość kartki
 375px - wysocość kartik
@@ -24,11 +24,11 @@
 #5DD62C - color Button
 #000000 - color czcionki Button
 
-# Footer: #
+### Footer: ###
 #202020 - color tła
 
 ## MAIN cz.2 ##
-# Naglówek: #
+### Naglówek: ###
 #202020 - color tła
 1980px - szerokość nagłówka
 168px - wysocość nagłówka
@@ -37,11 +37,11 @@
 70px - szerokość oraz wysocość logo
 50px - rozmiar czcionki
 
-# Glówna cz: #
+### Glówna cz: ###
 #0F0F0F - color body
 #F8F8F8 - color kartki dodania zadania
 
-# Footer: #
+### Footer: ###
 #202020 - color tła
 #5DD62C - color czcionku Button Dodaj
 #5DD62C - color Button
