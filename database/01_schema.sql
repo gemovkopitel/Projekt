@@ -21,8 +21,8 @@ CREATE TABLE comments (
  	id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
  	content VARCHAR(200) NOT NULL,
  	created_at TIMESTAMP NOT NULL DEFAULT now(),
- 	task_id INT NOT NULL
+ 	tasks_id INT NOT NULL
 REFERENCES tasks (id) ON DELETE CASCADE,
- 	user_id INT NOT NULL
+ 	users_id INT NOT NULL
 REFERENCES users (id)
 );
