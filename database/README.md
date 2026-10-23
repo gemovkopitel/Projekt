@@ -1,1 +1,1 @@
-# Dla Baz dannych
+# Dla wzystkiego z bazdannych
