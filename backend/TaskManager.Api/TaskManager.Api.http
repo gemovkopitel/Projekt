@@ -1,0 +1,66 @@
+@host = http://localhost:5113
+
+### Czy API działa
+GET {{host}}/api/health
+
+### Czy jest połączenie z bazą
+GET {{host}}/api/health/db
+
+### Lista zadań
+GET {{host}}/api/tasks
+
+### Zadania z jednej kolumny
+GET {{host}}/api/tasks?status=in_progress
+
+### Jedno zadanie
+GET {{host}}/api/tasks/1
+
+### Nowe zadanie
+POST {{host}}/api/tasks
+Content-Type: application/json
+
+{
+  "title": "Podłączyć frontend do API",
+  "description": "Zamienić fetch z data/tasks.json na /api/tasks",
+  "status": "new",
+  "userId": 2
+}
+
+### Edycja zadania
+PUT {{host}}/api/tasks/1
+Content-Type: application/json
+
+{
+  "title": "Przygotować makietę",
+  "description": "Ekran listy i formularza",
+  "status": "done"
+}
+
+### Zmiana statusu (przeniesienie karty)
+PATCH {{host}}/api/tasks/1/status
+Content-Type: application/json
+
+{
+  "status": "in_progress"
+}
+
+### Usunięcie zadania
+DELETE {{host}}/api/tasks/3
+
+### Komentarze do zadania
+GET {{host}}/api/tasks/2/comments
+
+### Nowy komentarz
+POST {{host}}/api/tasks/2/comments
+Content-Type: application/json
+
+{
+  "content": "Wygląda dobrze",
+  "userId": 1
+}
+
+### Usunięcie komentarza
+DELETE {{host}}/api/comments/1
+
+### Użytkownicy (bez haseł)
+GET {{host}}/api/users
