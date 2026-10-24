@@ -1,0 +1,168 @@
+* {
+    font-family: "League Spartan", sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #0F0F0F;
+    color: #FFFFFF;
+}
+
+header {
+    background-color: #202020;
+    color: #5DD62C;
+    height: 100px;
+    font-size: 50px;
+    font-weight: bold;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+img {
+    height: 40px;
+    width: 40px;
+}
+
+.message-box {
+    display: none;
+    padding: 10px 20px;
+    margin: 10px 20px 0;
+    border-radius: 5px;
+    background-color: #ff4d4d;
+    color: white;
+    font-weight: bold;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    gap: 20px;
+}
+
+.board {
+    display: flex;
+    gap: 20px;
+    flex: 1;
+}
+
+.column {
+    flex: 1;
+    background-color: #202020;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.column h2 {
+    color: #5DD62C;
+    font-size: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.column h2 .count {
+    color: #FFFFFF;
+    font-size: 18px;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #FFFFFF;
+    margin: 10px 0 15px 0;
+}
+
+.cards-list {
+    min-height: 200px;
+}
+
+.card {
+    background-color: #2D2D2D;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    position: relative;
+}
+
+.card-date {
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.card-desc {
+    font-size: 14px;
+    color: #CCC;
+}
+
+.card-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+}
+
+.card-actions button {
+    background-color: #5DD62C;
+    border: none;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.card-actions button.delete-btn {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+form {
+    border-radius: 20px;
+    padding: 20px;
+    width: 350px;
+    background-color: #F8F8F8;
+    color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #CCC;
+    font-size: 15px;
+    margin-top: 5px;
+}
+
+textarea {
+    height: 100px;
+    resize: none;
+}
+
+button[type="submit"] {
+    background-color: #5DD62C;
+    color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    padding: 8px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+footer {
+    background-color: #202020;
+    height: 60px;
+    margin-top: 40px;
+}
