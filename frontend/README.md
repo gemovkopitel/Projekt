@@ -12,8 +12,10 @@ Odpowiada za Wygląd i układ strony
 | JavaScript | Obsługa interakcji |
 ## Proponowana struktura
 Praktyki INF.03 | Markdown i dokumentacja projektu
-```text frontend/ 
-css/
- js/
- images/ index.html
+```frontend/ 
+css/style.css
+js/app.js
+gear.png
+index.html
+server.js
 ```
