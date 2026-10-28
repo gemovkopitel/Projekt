@@ -6,7 +6,7 @@
 Źródło wiedzy: Służy do tego, aby każdy członek zespołu wiedział, co jest do czego, jak są powiązane dane i jak wygląda architektura.
 
 # 📂 Co tu znajdziesz? #
-##Architektura: Diagramy pokazujące przepływ danych i strukturę systemu.
-Schematy relacji (ERD) oraz opis tabel i powiązań.
+## Architektura: Diagramy pokazujące przepływ danych i strukturę systemu. ##
+Schematy relacji (ERD) oraz opis tabel i powiązań
 Zrzuty ekranu, makiety i widoki interfejsu.
 Logotypy, ikony i inne zasoby graficzne.
