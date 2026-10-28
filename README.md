@@ -17,7 +17,8 @@ Celem jest przejście od teorii do praktyki oraz zrozumienie, jak poszczególne 
 frontend/ 
 backend/ 
 database/ 
-docs/ tests/ 
+docs/
+tests/ 
 ```
 ## Uruchomienie
 Ta sekcja zostanie uzupełniona w kolejnych etapach projektu.
