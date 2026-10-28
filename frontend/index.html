@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <title>TaskManager Yakym</title>
+</head>
+<body>
+
+    <header>TaskManager <img class="gear" src="gear.png" alt="gear"></header>   
+
+    <div id="message-box" class="message-box"></div>
+
+    <div class="container">
+        <div class="board">
+            <div class="column">
+                <h2>Nowe <span id="count-new" class="count">(0)</span></h2>
+                <hr>
+                <div id="col-new" class="cards-list"></div>
+            </div>
+
+            <div class="column">
+                <h2>W trakcie <span id="count-in_progress" class="count">(0)</span></h2>
+                <hr>
+                <div id="col-in_progress" class="cards-list"></div>
+            </div>
+
+            <div class="column">
+                <h2>Gotowe <span id="count-done" class="count">(0)</span></h2>
+                <hr>
+                <div id="col-done" class="cards-list"></div>
+            </div>
+        </div>
+        
+        <form id="task-form">
+            <label for="title">Tytuł:</label><br>
+            <input required type="text" id="title" maxlength="200"><br><br>
+
+            <label for="opis">Opis:</label><br>
+            <textarea id="opis"></textarea><br><br>
+
+            <label for="status">Status:</label><br>
+            <select required id="status">
+                <option value="new">Nowe</option>
+                <option value="in_progress">W trakcie</option>
+                <option value="done">Gotowe</option>
+            </select><br><br>
+
+            <center><button type="submit">Dodaj</button></center>
+        </form>
+    </div>
+
+    <footer></footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
