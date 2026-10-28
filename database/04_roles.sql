@@ -5,7 +5,7 @@ GRANT SELECT on tasks, users, comment to userek;
  
 SET ROLE userek;
 select current_user; --powinno dzialac
-select count(*) from tasks; -powinno dzialac
+select count(*) from tasks; --powinno dzialac
 select count(*) from comment; --powinno dzialac
 Delete from comment; -- permission denied
 RESET ROLE;
