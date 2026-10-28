@@ -1,43 +1,56 @@
-const DATA_URL = "frontend/data/tasks.json";
+const API_URL = "http://localhost:5000/api/tasks";
 let tasks = [];
 
+// error/success
 function showMessage(text, isError = false) {
     const box = document.getElementById("message-box");
+    if (!box) return;
     box.textContent = text;
     box.style.display = "block";
     box.style.backgroundColor = isError ? "#ff4d4d" : "#5DD62C";
+    box.style.color = isError ? "#ffffff" : "#000000";
 }
 
+async function request(url, options = {}) {
+    let response;
+    try {
+        response = await fetch(url, {
+            headers: { "Content-Type": "application/json" },
+            ...options,
+        });
+    } catch {
+        throw new Error("Brak połączenia z serwerem. Sprawdź, czy API działa.");
+    }
+
+    if (!response.ok) {
+        const body = await response.json().catch(() => ({}));
+        throw new Error(body.error || `Błąd serwera (${response.status})`);
+    }
+
+    if (response.status === 204) {
+        return null;
+    }
+    return response.json();
+}
+
+// GET
 async function loadTasks() {
     try {
-        const localData = localStorage.getItem("my_tasks");
-        if (localData) {
-            tasks = JSON.parse(localData);
-        } else {
-            const response = await fetch(DATA_URL);
-            if (!response.ok) {
-                throw new Error(`Nie udało się wczytać danych (${response.status}).`);
-            }
-            tasks = await response.json();
-            saveTasks();
-        }
+        tasks = await request(API_URL);
+        renderBoard();
     } catch (error) {
         showMessage(error.message, true);
     }
-
-    renderBoard();
 }
 
-function saveTasks() {
-    localStorage.setItem("my_tasks", JSON.stringify(tasks));
-}
-
+// textContent
 function renderBoard() {
     const colNew = document.getElementById("col-new");
     const colInProgress = document.getElementById("col-in_progress");
     const colDone = document.getElementById("col-done");
 
-    // Czyszczenie kolumn
+    if (!colNew || !colInProgress || !colDone) return;
+
     colNew.innerHTML = "";
     colInProgress.innerHTML = "";
     colDone.innerHTML = "";
@@ -50,19 +63,39 @@ function renderBoard() {
         const card = document.createElement("div");
         card.className = "card";
 
+        const titleDiv = document.createElement("div");
+        titleDiv.className = "card-title";
+        titleDiv.textContent = task.title; // Защита от XSS
+
         const descText = task.description && task.description.trim() !== "" 
             ? task.description 
             : "brak opisu";
+            
+        const descDiv = document.createElement("div");
+        descDiv.className = "card-desc";
+        descDiv.textContent = "● " + descText; // Защита от XSS
 
-        card.innerHTML = `
-            <div class="card-date">${task.date || 'Dziś'}</div>
-            <div class="card-title">${task.title}</div>
-            <div class="card-desc">● ${descText}</div>
-            <div class="card-actions">
-                <button onclick="editTask(${task.id})">Edytuj</button>
-                <button class="delete-btn" onclick="deleteTask(${task.id})">Usuń</button>
-            </div>
-        `;
+        const actionsDiv = document.createElement("div");
+        actionsDiv.className = "card-actions";
+
+        // done/in_progress-button
+        if (task.status !== "done") {
+            const doneBtn = document.createElement("button");
+            doneBtn.textContent = "Zakończ";
+            doneBtn.onclick = () => updateTaskStatus(task.id, "done");
+            actionsDiv.appendChild(doneBtn);
+        }
+
+        // del-button
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "delete-btn";
+        deleteBtn.textContent = "Usuń";
+        deleteBtn.onclick = () => deleteTask(task.id);
+        actionsDiv.appendChild(deleteBtn);
+
+        card.appendChild(titleDiv);
+        card.appendChild(descDiv);
+        card.appendChild(actionsDiv);
 
         if (task.status === "new") colNew.appendChild(card);
         else if (task.status === "in_progress") colInProgress.appendChild(card);
@@ -74,59 +107,63 @@ function renderBoard() {
     document.getElementById("count-done").textContent = `(${counts.done || 0})`;
 }
 
-document.getElementById("task-form").addEventListener("submit", function(e) {
+// POST
+document.getElementById("task-form").addEventListener("submit", async function(e) {
     e.preventDefault();
 
     const titleInput = document.getElementById("title");
     const descInput = document.getElementById("opis");
     const statusSelect = document.getElementById("status");
 
-    const newTask = {
-        id: Date.now(), // Unikalne ID
-        title: titleInput.value,
-        description: descInput.value,
-        status: statusSelect.value,
-        date: new Date().toLocaleDateString('pl-PL')
+    const data = {
+        title: titleInput.value.trim(),
+        description: descInput.value.trim() || null,
+        status: statusSelect.value
     };
 
-    tasks.push(newTask);
-    saveTasks();
-    renderBoard();
+    if (!data.title) {
+        showMessage("Tytuł jest wymagany.", true);
+        return;
+    }
 
-    titleInput.value = "";
-    descInput.value = "";
-    statusSelect.value = "new";
+    try {
+        const created = await request(API_URL, {
+            method: "POST",
+            body: JSON.stringify(data)
+        });
+        showMessage(`Dodano zadanie "${created.title}".`);
+        this.reset();
+        await loadTasks();
+    } catch (error) {
+        showMessage(error.message, true);
+    }
 });
 
-function editTask(id) {
-    const task = tasks.find(t => t.id === id);
-    if (!task) return;
-
-    const newTitle = prompt("Nowy tytuł:", task.title);
-    if (newTitle === null) return; // Anulowano
-
-    const newDesc = prompt("Nowy opis:", task.description);
-    if (newDesc === null) return;
-
-    const newStatus = prompt("Nowy status (new / in_progress / done):", task.status);
-    if (newStatus === null) return;
-
-    if (["new", "in_progress", "done"].includes(newStatus)) {
-        task.title = newTitle;
-        task.description = newDesc;
-        task.status = newStatus;
-        saveTasks();
-        renderBoard();
-    } else {
-        alert("Nieprawidłowy status! Użyj: new, in_progress lub done.");
+// PUT
+async function updateTaskStatus(id, newStatus) {
+    try {
+        await request(`${API_URL}/${id}`, {
+            method: "PUT",
+            body: JSON.stringify({ status: newStatus })
+        });
+        showMessage("Zaktualizowano status zadania.");
+        await loadTasks();
+    } catch (error) {
+        showMessage(error.message, true);
     }
 }
 
-function deleteTask(id) {
-    if (confirm("Czy na pewno chcesz usunąć to zadanie?")) {
-        tasks = tasks.filter(t => t.id !== id);
-        saveTasks();
-        renderBoard();
+// DELETE
+async function deleteTask(id) {
+    if (!confirm("Na pewno usunąć zadanie?")) return;
+    try {
+        await request(`${API_URL}/${id}`, {
+            method: "DELETE"
+        });
+        showMessage("Usunięto zadanie.");
+        await loadTasks();
+    } catch (error) {
+        showMessage(error.message, true);
     }
 }
 
