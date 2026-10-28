@@ -4,6 +4,8 @@ Odpowiada za Wygląd i układ strony
 ## Planowane widoki
 - [x] Utworzenie strony internetowei
 - [x] Konfiguracja strony
+- [x] Tworrzenie skryptów
+- [x] Połączenie z bazą dannych
 ## Technologie
 | Technologia | Zastosowanie |
 |---|---|
