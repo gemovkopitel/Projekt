@@ -48,6 +48,7 @@ img {
     display: flex;
     gap: 20px;
     flex: 1;
+
 }
 
 .column {
@@ -55,6 +56,7 @@ img {
     background-color: #202020;
     padding: 15px;
     border-radius: 10px;
+    overflow-y: auto;
 }
 
 .column h2 {
@@ -70,14 +72,9 @@ img {
     font-size: 18px;
 }
 
-hr {
-    border: none;
-    border-top: 1px solid #FFFFFF;
-    margin: 10px 0 15px 0;
-}
-
 .cards-list {
     min-height: 200px;
+    overflow-x: auto;
 }
 
 .card {
