@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000/api/tasks";
+const API_URL = "http://localhost:5113/api/tasks";
 let tasks = [];
 
 // error/success
@@ -43,7 +43,7 @@ async function loadTasks() {
     }
 }
 
-// textContent
+// textContent & Render
 function renderBoard() {
     const colNew = document.getElementById("col-new");
     const colInProgress = document.getElementById("col-in_progress");
@@ -78,6 +78,14 @@ function renderBoard() {
         const actionsDiv = document.createElement("div");
         actionsDiv.className = "card-actions";
 
+        // Кнопка редактирования (Edytuj)
+        const editBtn = document.createElement("button");
+        editBtn.textContent = "Edytuj";
+        editBtn.style.backgroundColor = "#1f6feb";
+        editBtn.style.color = "white";
+        editBtn.onclick = () => editTask(task.id);
+        actionsDiv.appendChild(editBtn);
+
         // done/in_progress-button
         if (task.status !== "done") {
             const doneBtn = document.createElement("button");
@@ -107,7 +115,7 @@ function renderBoard() {
     document.getElementById("count-done").textContent = `(${counts.done || 0})`;
 }
 
-// POST
+// POST (Добавление задачи с userId: 2 для C# бэкенда)
 document.getElementById("task-form").addEventListener("submit", async function(e) {
     e.preventDefault();
 
@@ -118,7 +126,8 @@ document.getElementById("task-form").addEventListener("submit", async function(e
     const data = {
         title: titleInput.value.trim(),
         description: descInput.value.trim() || null,
-        status: statusSelect.value
+        status: statusSelect.value,
+        userId: 2 
     };
 
     if (!data.title) {
@@ -139,12 +148,51 @@ document.getElementById("task-form").addEventListener("submit", async function(e
     }
 });
 
-// PUT
-async function updateTaskStatus(id, newStatus) {
+// EDIT (Редактирование задачи)
+async function editTask(id) {
+    const task = tasks.find(t => t.id === id);
+    if (!task) return;
+
+    const newTitle = prompt("Nowy tytuł:", task.title);
+    if (newTitle === null) return; // Если нажали "Отмена"
+
+    if (!newTitle.trim()) {
+        showMessage("Tytuł jest wymagany.", true);
+        return;
+    }
+
+    const newDesc = prompt("Nowy opis:", task.description || "");
+    if (newDesc === null) return;
+
     try {
         await request(`${API_URL}/${id}`, {
             method: "PUT",
-            body: JSON.stringify({ status: newStatus })
+            body: JSON.stringify({
+                title: newTitle.trim(),
+                description: newDesc.trim() || null,
+                status: task.status,
+                userId: task.userId || 2
+            })
+        });
+        showMessage("Zaktualizowano zadanie.");
+        await loadTasks();
+    } catch (error) {
+        showMessage(error.message, true);
+    }
+}
+
+// PUT (Обновление только статуса)
+async function updateTaskStatus(id, newStatus) {
+    try {
+        const task = tasks.find(t => t.id === id);
+        await request(`${API_URL}/${id}`, {
+            method: "PUT",
+            body: JSON.stringify({
+                title: task.title,
+                description: task.description,
+                status: newStatus,
+                userId: task.userId || 2
+            })
         });
         showMessage("Zaktualizowano status zadania.");
         await loadTasks();
