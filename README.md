@@ -1,6 +1,6 @@
 # Task Manager
 ## Opis projektu
-Opis ...
+Task manager dla lokalneko korzystowania, dla zapisywania zadań i nei zapomonanie ich
 ## Cel projektu
 Celem jest przejście od teorii do praktyki oraz zrozumienie, jak poszczególne elementy systemu webowego współdziałają jako spójna całościowa aplikacja.
 ## Funkcjonalności
